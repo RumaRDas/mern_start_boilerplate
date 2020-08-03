@@ -3,27 +3,30 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
     name: {
         type: String,
-        maxlength:50
+        trim: true,
+        required: "Username is Required"
     },
     email: {
-        type:String,
-        trim: true,
-        unique: 1
+        type: String,
+        unique: true,
+        match: [/.+@.+\..+/, "Please enter a valid e-mail address"]
     },
     password: {
         type: String,
-        minlength: 5
+        trim: true,
+        required: "Password is Required",
+        validate: [({ length }) => length >= 6, "Password should be longer."]
     },
-    lastname:{
+    lastname: {
         type: String,
-        maxlength:50
+        maxlength: 50
     },
     role: {
         type: Number,
         default: 0
     },
     token: {
-        type:String
+        type: String
     },
     tokenExp: {
         type: Number
