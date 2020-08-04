@@ -2,11 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const config = require('./config/key')
 
 const User = require('./models/user');
 
 const app = express();
-mongoose.connect('mongodb+srv://admin:1234@cluster0-slihp.mongodb.net/<dbname>?retryWrites=true&w=majority', { useNewUrlParser: true })
+mongoose.connect(config.mongoURI, { useNewUrlParser: true })
     .then(() => console.log("MongoDB Connected"))
     .catch(err => console.error(err));
 
@@ -22,7 +23,10 @@ app.post('/api/users/register', (req, res) => {
             success:true
         })
     })
+})
 
+app.get('/', (req, res) => {
+    res.json({" Hello ~hhhh": "Hi ~~"})
 })
 
 app.get('/', (req, res) => {
