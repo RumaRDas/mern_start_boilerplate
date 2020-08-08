@@ -8,7 +8,9 @@ import {createStore, applyMiddleware} from 'redux';
 import prmiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 import Reducer from './reducers'
+import 'materialize-css/dist/css/materialize.min.css';
 import * as serviceWorker from './serviceWorker';
+
 
 const createStoreWithMiddleware = applyMiddleware(prmiseMiddleware,ReduxThunk)(createStore);
 ReactDOM.render(
