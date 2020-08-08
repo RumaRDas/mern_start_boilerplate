@@ -75,5 +75,8 @@ app.get('/', (req, res) => {
     res.json({ " Hello ~hhhh": "Hi ~~" })
 })
 
+const PORT = process.env.PORT || 5050
 
-app.listen(5050);
+app.listen(PORT, () => {
+    console.log(`server Runing at ${PORT}`)
+});
