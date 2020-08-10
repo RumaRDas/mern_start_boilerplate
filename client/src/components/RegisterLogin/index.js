@@ -1,20 +1,54 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions/user_actions'
+
+
 
 class RegisterLogin extends Component {
+
+    state = {
+        email: "",
+        password: "",
+        errors: []
+    }
+
+    displayErrors = (errors) => {
+        errors.map((error, i) => <p key={i}> {error}</p>)
+    }
+
+    handleChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value });
+        console.log(event.target.value)
+    }
+
+    submitForm = (event) => {
+        event.preventDefault();
+        let dataToSubmit = {
+            email: this.state.email,
+            password: this.state.password
+        };
+        if (this.isFormvalid(this.state)) {
+            this.setState({ errors: [] })
+            this.props.dispatch(loginUser(dataToSubmit))
+                .then(response => { console.log() })
+        }
+
+    }
+
+    isFormvalid = ({ email, password }) => email && password;
+
     render() {
         return (
             <div className="container">
                 <h2>Login</h2>
                 <div className="row">
-                    <form className="col s12"
-                       // onSubmit={event => this.submitForm(EventSource)}
-                        >
+                    <form className="col s12" >
                         <div className="row">
                             <div className="input-field col s12">
                                 <input
                                     name="email"
-                                   // value={this.state.email}
-                                   // onChange={event => this.handleChange(event)}
+                                    value={this.state.email}
+                                    onChange={event => this.handleChange(event)}
                                     id="email"
                                     type="email"
                                     className="validate"
@@ -30,8 +64,8 @@ class RegisterLogin extends Component {
                             <div className="input-field col s12">
                                 <input
                                     name="password"
-                                   // value={this.state.password}
-                                   // onChange={event => this.handleChange(event)}
+                                    value={this.state.password}
+                                    onChange={event => this.handleChange(event)}
                                     id="password"
                                     type="password"
                                     className="validate"
@@ -43,6 +77,11 @@ class RegisterLogin extends Component {
                                 />
                             </div>
                         </div>
+                        {this.state.errors.length > 0 && (
+                            <div>
+                                {this.displayErrors(this.state.errors)}
+                            </div>
+                        )}
                         <div className="row">
                             <div className="col s12">
                                 <button
@@ -59,4 +98,9 @@ class RegisterLogin extends Component {
         )
     }
 }
-export default RegisterLogin;
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+export default connect(mapStateToProps)(RegisterLogin);
